@@ -127,6 +127,7 @@
 # не забываем оставить пустую строку в конце файла  21.242834517558933
 
 
+#------------------------------------------------------------------------
 
 
 # Задание 4: поиск элемента по XPath
@@ -144,31 +145,81 @@
 #
 # Если вы подобрали правильный селектор и все прошло хорошо, то вы получите код, который нужно отправить в качестве ответа на это задание.
 
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+# import time
+#
+# try:
+#     browser = webdriver.Chrome()
+#     browser.get("http://suninjuly.github.io/find_xpath_form")
+#     input1 = browser.find_element(By.NAME, "first_name")
+#     input1.send_keys("Ivan")
+#     input2 = browser.find_element(By.NAME, "last_name")
+#     input2.send_keys("Petrov")
+#     input3 = browser.find_element(By.CLASS_NAME, "city")
+#     input3.send_keys("Smolensk")
+#     input4 = browser.find_element(By.ID, "country")
+#     input4.send_keys("Russia")
+#
+#     button = browser.find_element(By.XPATH, "//button[text()='Submit']")
+#     button.click()
+#
+# finally:
+#     # успеваем скопировать код за 30 секунд
+#     time.sleep(10)
+#     # закрываем браузер после всех манипуляций
+#     browser.quit()
+#
+#     #25.285888245983035
+
+#------------------------------------------------------------------------
+
+
+# Задание 5 Уникальность селекторов
+#
+# Попробуем реализовать один из автотестов из предыдущего шага. Вам дана страница с формой регистрации.
+# Проверьте, что можно зарегистрироваться на сайте, заполнив только обязательные поля,
+# отмеченные символом *: First name, last name, email.
+# Текст для полей может быть любым. У
+# спешность регистрации проверяется сравнением ожидаемого текста
+# "Congratulations! You have successfully registered!" с текстом на странице,
+# которая открывается после регистрации. Для сравнения воспользуемся стандартной конструкцией assert из языка Python.
+#
+# Ниже дан шаблон кода, который вам нужно использовать для своего теста.
+# Не забывайте, что селекторы должны быть уникальными.
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
 try:
+    link = "http://suninjuly.github.io/registration2.html"
     browser = webdriver.Chrome()
-    browser.get("http://suninjuly.github.io/find_xpath_form")
-    input1 = browser.find_element(By.NAME, "first_name")
-    input1.send_keys("Ivan")
-    input2 = browser.find_element(By.NAME, "last_name")
-    input2.send_keys("Petrov")
-    input3 = browser.find_element(By.CLASS_NAME, "city")
-    input3.send_keys("Smolensk")
-    input4 = browser.find_element(By.ID, "country")
-    input4.send_keys("Russia")
+    browser.get(link)
 
+    elements = browser.find_elements(By.CSS_SELECTOR, 'input:required')
+    for element in elements:
+        element.send_keys("Мой ответ")
+
+
+    # Отправляем заполненную форму
     button = browser.find_element(By.XPATH, "//button[text()='Submit']")
     button.click()
 
+    # Проверяем, что смогли зарегистрироваться
+    # ждем загрузки страницы
+    time.sleep(1)
+
+    # находим элемент, содержащий текст
+    welcome_text_elt = browser.find_element(By.TAG_NAME, "h1")
+    # записываем в переменную welcome_text текст из элемента welcome_text_elt
+    welcome_text = welcome_text_elt.text
+
+    # с помощью assert проверяем, что ожидаемый текст совпадает с текстом на странице сайта
+    assert "Congratulations! You have successfully registered!" == welcome_text
+
 finally:
-    # успеваем скопировать код за 30 секунд
+    # ожидание чтобы визуально оценить результаты прохождения скрипта
     time.sleep(10)
     # закрываем браузер после всех манипуляций
     browser.quit()
-
-    #25.285888245983035
-
-
