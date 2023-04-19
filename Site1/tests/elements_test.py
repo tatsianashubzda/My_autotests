@@ -1,6 +1,6 @@
 import time
 import allure
-from Site1.pages.elements_page import *
+from pages.elements_page import *
 
 
 @allure.suite("Main test")

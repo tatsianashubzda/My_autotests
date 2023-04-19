@@ -1,6 +1,6 @@
-from Site1.pages.base_page import BasePage
-from Site1.locators.elements_page_locators import *
-from Site1.generator.generator import *
+from pages.base_page import BasePage
+from locators.elements_page_locators import *
+from generator.generator import *
 import allure
 
 
