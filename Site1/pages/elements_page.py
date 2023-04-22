@@ -2,6 +2,7 @@ from pages.base_page import BasePage
 from locators.elements_page_locators import *
 from generator.generator import *
 import allure
+import requests
 
 
 class TextBoxPage(BasePage):
@@ -138,17 +139,18 @@ class WebTablePage(BasePage):
         self.element_is_visible(self.locators.AGE_INPUT).clear()
         self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
         self.element_is_visible(self.locators.SUBMIT).click()
+        return str(age)
 
     @allure.title("delete person")
     def delete_person(self):
-        self.elements_are_present(self.locators.DELETE_BUTTON).click()
+        self.element_is_present(self.locators.DELETE_BUTTON).click()
 
     @allure.title("check deleted person")
     def check_deleted(self):
         return self.element_is_present(self.locators.NO_ROWS_FOUND).text
 
     @allure.title("select up to rows")
-    def select_uo_to_rows(self):
+    def select_up_to_rows(self):
         self.remove_footer()
         count = [5, 10, 20, 25, 50, 100]
         data = []
@@ -156,11 +158,58 @@ class WebTablePage(BasePage):
             count_row_button = self.element_is_present(self.locators.COUNT_ROW_LIST)
             self.go_to_element(count_row_button)
             count_row_button.click()
-            self.element_is_visible((By.CSS_SELECTOR, f"""option[value="{i}"]""")).click()
+            self.element_is_visible(By.CSS_SELECTOR, f"""option[value="{i}"]""").click()
+            data.append(self.check_count_row())
+        return data
 
     @allure.title("check count rows")
     def check_count_row(self):
         list_row = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
         return len(list_row)
+
+
+class ButtonsPage(BasePage):
+    locators = ButtonsPageLocators
+
+    @allure.step('click on different  buttons')
+    def click_on_different_button(self, type_click):
+        if type_click == "double":
+            self.action_double_click(self.element_is_visible(self.locators.DOUBLE_CLICK))
+            return self.check_clicked_on_the_button(self.locators.SUCCESS_DOUBLE)
+        if type_click == "right":
+            self.action_right_click(self.element_is_visible(self.locators.RIGHT_CLICK))
+            return self.check_clicked_on_the_button(self.locators.SUCCESS_RIGHT)
+        if type_click == "click":
+            self.element_is_visible(self.locators.CLICK_ME_BUTTON).click()
+            return self.check_clicked_on_the_button(self.locators.SUCCESS_CLICK_ME)
+
+
+    @allure.step('check clicked button')
+    def check_clicked_on_the_button(self, elem):
+        return  self.element_is_present(elem).text
+
+
+class LinksPage(BasePage):
+    locators = LinksPageLocators
+
+    def click_on_simple_link(self):
+        simple_link = self.element_is_visible(self.locators.SIMPLE_LINK)
+        link_href = simple_link.get_attribute('href')
+        response = requests.get(link_href)
+        if response.status_code == 200:
+            simple_link.click()
+            self.driver.switch_to_window(self.driver.window_handles[1])
+            url = self.driver.current_url
+            return link_href, url
+        else:
+            return response.status_code
+
+
+
+
+
+
+
+
 
 
