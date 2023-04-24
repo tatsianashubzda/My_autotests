@@ -2,7 +2,7 @@ import time
 import pytest
 import allure
 from pages.elements_page import *
-
+import locators
 
 @allure.suite("Main test")
 class TestElements:
@@ -155,7 +155,35 @@ class TestElements:
 
             assert href_link == current_url, "The link is broken or url is incorrect"
 
+        @allure.title("Check the broken link")
+        def test_broken_link(self, driver):
+            links_page = LinksPage(driver, "https://demoqa.com/links")
+            links_page.open()
+            response_code = links_page.click_on_the_broken_link('https://demoqa.com/bad-request')
+            assert response_code == 400, "The link works or status code is not 400"
 
+        @allure.title("Check the 'Not found' link")
+        def test_broken_link(self, driver):
+            links_page = LinksPage(driver, "https://demoqa.com/links")
+            links_page.open()
+            response_code = links_page.click_on_the_broken_link('https://demoqa.com/bad-request')
+            assert response_code == 400, "The link works or status code is not 400"
+
+    @allure.feature("Download/Upload files")
+    class TestDownloadAndUploadPage:
+        @allure.title("Download file")
+        def test_download_file(self, driver):
+            download_page = DownloadPage(driver, "https://demoqa.com/upload-download")
+            download_page.open()
+            check = download_page.download_file()
+            assert check is True
+
+        @allure.title("Upload file")
+        def test_upload_file(self, driver):
+            upload_file = UploadPage(driver, "https://demoqa.com/upload-download")
+            upload_file.open()
+            file_name, result = upload_file.upload_file()
+            assert file_name == result, "There is not been upload"
 
 
 
