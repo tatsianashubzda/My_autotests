@@ -1,9 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-
 class TextBoxPageLocators:
-
     FULL_NAME = (By.CSS_SELECTOR, "input[id='userName']")
     EMAIL = (By.CSS_SELECTOR, "input[id='userEmail']")
     CURRENT_ADDRESS = (By.CSS_SELECTOR, "textarea[id='currentAddress']")
@@ -64,10 +62,20 @@ class ButtonsPageLocators:
 
 
 class LinksPageLocators:
-    SIMPLE_LINK = (By.CSS_SELECTOR,"a[id='simpleLink']")
+    SIMPLE_LINK = (By.CSS_SELECTOR, "a[id='simpleLink']")
     BAD_REQUEST_LINK = (By.CSS_SELECTOR, "a[id='bad-request']")
     NOT_FOUND_LINK = (By.CSS_SELECTOR, "a[id='invalid-url']")
     FORBIDDEN_LINK = (By.CSS_SELECTOR, "a[id='forbidden']")
+    ALL_LINKS = [(By.CSS_SELECTOR, "a[id='created']"),
+                 (By.CSS_SELECTOR, "a[id='no-content']"),
+                 (By.CSS_SELECTOR, "a[id='moved']"),
+                 (By.CSS_SELECTOR, "a[id='bad-request']"),
+                 (By.CSS_SELECTOR, "a[id='unauthorized']"),
+                 (By.CSS_SELECTOR, "a[id='forbidden']"),
+                 (By.CSS_SELECTOR, "a[id='invalid-url']"),
+                 ]
+    TEXT_AFTER_CLICK = (By.CSS_SELECTOR, "p[id='linkResponse']")
+    BROKEN_IMAGE = (By.XPATH, "//img[contains(@src, 'Toolsqa_1.jpg')]")
 
 
 class UploadPageLocators:
@@ -82,5 +90,4 @@ class DownLoadPageLocators:
 class DynamicPropertiesPageLocators:
     ENABLE_AFTER_FIVE_SECOND = (By.CSS_SELECTOR, "button[id='enableAfter']")
     COLOR_CHANGE_BUTTON = (By.CSS_SELECTOR, " button[id='colorChange']")
-    VISIBLE_AFTERFIVE_SECOND = (By.CSS_SELECTOR, " button[id='visibleAfter']")
-
+    VISIBLE_AFTER_FIVE_SECOND = (By.CSS_SELECTOR, " button[id='visibleAfter']")
