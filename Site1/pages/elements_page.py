@@ -8,6 +8,7 @@ import requests
 import base64
 import os
 import random
+import time
 
 
 class TextBoxPage(BasePage):
@@ -263,7 +264,7 @@ class DynamicPage(BasePage):
         try:
             enable_button = self.element_is_clicable(self.locators.ENABLE_AFTER_FIVE_SECOND, 5)
         except TimeoutException:
-            return False
+            return "Timeout"
         return True
 
     @allure.step("check changed of color")
@@ -274,6 +275,12 @@ class DynamicPage(BasePage):
         color_button_after = color_button.value_of_css_property("color")
         return color_button_before, color_button_after
 
+    def check_appear_button(self):
+        try:
+            self.element_is_visible(self.locators.VISIBLE_AFTER_FIVE_SECOND)
+        except TimeoutException:
+            return "Timeout"
+        return True
 
 
 

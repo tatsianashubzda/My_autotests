@@ -185,6 +185,30 @@ class TestElements:
             file_name, result = upload_file.upload_file()
             assert file_name == result, "There is not been upload"
 
+    @allure.feature("check dynamic buttons")
+    class TestDynamicButtons:
+        @allure.title("check enable button")
+        def test_enable_button(self, driver):
+            enable_button = DynamicPage(driver, "https://demoqa.com/dynamic-properties")
+            enable_button.open()
+            clickable_button = enable_button.check_enable_button()
+            assert clickable_button is True, "The button is not enable"
+
+        @allure.title("check changed color")
+        def test_check_changed_color(self, driver):
+            color_button = DynamicPage(driver, "https://demoqa.com/dynamic-properties")
+            color_button.open()
+            color_before, color_after = color_button.check_changed_of_color()
+            assert color_after != color_before, "The color is not changed"
+
+        @allure.title("check appear button")
+        def test_appear_button(self, driver):
+            appear_button = DynamicPage(driver, "https://demoqa.com/dynamic-properties")
+            appear_button.open()
+            button = appear_button.check_appear_button()
+            assert button is True, "The button don't appear"
+
+
 
 
 
