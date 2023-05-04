@@ -1,9 +1,9 @@
 from faker import Faker
 import random
-from data.data import Person
+from data.data import Person, Date, Color
 
-# fake = Faker()
 faker_ru = Faker('ru_RU')
+faker_en = Faker('En')
 Faker.seed()
 
 
