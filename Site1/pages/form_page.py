@@ -1,9 +1,11 @@
 import os
+import random
 import allure
 from selenium.webdriver import Keys
-from draft.draft import *
-from locators.form_page_locators import *
-from generator.generator import *
+from selenium.webdriver.common.by import By
+from draft.draft import return_correct_form
+from locators.form_page_locators import FormPageLocators
+from generator.generator import get_person, generated_subject, generated_file, generated_city
 from pages.base_page import BasePage
 
 
@@ -83,5 +85,6 @@ class FormPage(BasePage):
         for item in result_list:
             self.go_to_element(item)
             data += item.text
+        print(data)
         correct_result = return_correct_form(data)
         return correct_result
